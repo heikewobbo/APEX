@@ -1,0 +1,6 @@
+*.zip
+voci/
+auto/
+*.wav
+*.ogg
+.DS_Store

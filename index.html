@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="APEX">
+<meta name="theme-color" content="#0b0c0f">
+<title>APEX</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,600;1,700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="styles/rally/rally.css">
+<link rel="stylesheet" href="styles/gta/gta.css">
+</head>
+<body>
+<div id="map"></div>
+
+<!-- schermata di guida dello stile -->
+<div id="hud" hidden></div>
+<!-- senza percorso: velocità e via (quando la mappa ti segue) -->
+<div id="freehud" hidden><div class="fspd"><b id="fSpd">0</b><span>km/h</span></div><div class="fwhere"><b id="fStreet"></b><span id="fZone"></span></div></div>
+
+<!-- pianificazione -->
+<section id="plan" class="plan">
+  <div class="fields">
+    <div class="field"><span class="dot from"></span><input id="inFrom" type="search" placeholder="Partenza (la tua posizione)" autocomplete="off" enterkeyhint="search"></div>
+    <div id="viaList"></div>
+    <div class="field"><span class="dot to"></span><input id="inTo" type="search" placeholder="Dove vuoi andare?" autocomplete="off" enterkeyhint="search"></div>
+    <button id="btnSwap" class="iconbtn swap" aria-label="Inverti partenza e arrivo"><svg viewBox="0 0 24 24"><path d="M7 4v13M7 17l-3-3M7 17l3-3M17 20V7M17 7l-3 3M17 7l3 3"/></svg></button>
+  </div>
+  <div id="chips" class="chips"></div>
+  <ul id="sugg" class="sugg" hidden></ul>
+</section>
+
+<div class="fabs">
+  <button id="btnSettings" class="iconbtn fab" aria-label="Impostazioni"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M21.2 12h-2.6M5.4 12H2.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8M18.5 18.5l-1.8-1.8M7.3 7.3L5.5 5.5"/></svg></button>
+  <button id="btnStages" class="iconbtn fab" aria-label="Prove salvate"><svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></button>
+  <button id="btnStats" class="iconbtn fab" aria-label="Statistiche"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg></button>
+</div>
+<button id="btnLocate" class="iconbtn fab locate" aria-label="Seguimi"><svg viewBox="0 0 24 24"><path d="M12 3l7 17-7-4-7 4z"/></svg></button>
+
+<!-- riepilogo percorso -->
+<section id="sheet" class="sheet" hidden>
+  <div class="grab"></div>
+  <div class="summary">
+    <div><b id="sumKm">–</b><span id="sumTime"></span></div>
+    <div class="sumright" id="sumRight"></div>
+  </div>
+  <div id="sumInfo" class="suminfo"></div>
+  <div id="alts" class="alts"></div>
+  <div class="actions">
+    <button id="btnSim" class="btn ghost">Simula</button>
+    <button id="btnGo" class="btn go">Parti</button>
+  </div>
+  <div class="tools">
+    <button id="btnVia" class="chip">+ Tappa</button>
+    <button id="btnPlace" class="chip">★ Salva luogo</button>
+    <button id="btnBlock" class="chip">Strada chiusa</button>
+    <button id="btnSaveStage" class="chip">Salva prova</button>
+    <button id="btnClear" class="chip">✕</button>
+  </div>
+  <div id="stageBar" class="stagebar"></div>
+  <div id="sheetExtra" class="sheetextra"></div>
+</section>
+
+<!-- impostazioni -->
+<div id="settings" class="modal" hidden>
+  <div class="panel">
+    <header><h2>Impostazioni</h2><button class="iconbtn close" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <h3>Stile del navigatore</h3>
+    <div id="styleList" class="stylelist"></div>
+    <p class="hint">Le strade e i dati sono gli stessi per tutti gli stili: cambia l'aspetto e le funzioni di ognuno.</p>
+    <div id="setStyle"></div>
+
+    <h3>Percorso</h3>
+    <label class="toggle"><input id="tNoMotorway" type="checkbox"><span>Evita le autostrade</span></label>
+    <label class="toggle"><input id="tCams" type="checkbox"><span>Autovelox e tutor (tutto il Piemonte, anche senza campo)</span></label>
+    <label class="select">Indicazioni a voce ("tra 300 metri svolta a destra")
+      <select id="selInstr"><option value="auto">Come preferisce lo stile</option><option value="on">Sempre</option><option value="off">Mai</option></select></label>
+
+    <h3>Audio</h3>
+    <label class="select">Audio in auto
+      <select id="selAudio"><option value="continuo">Normale</option><option value="navigatore">Come un navigatore: abbassa la musica</option></select></label>
+
+    <h3>Mappa</h3>
+    <label class="toggle"><input id="tSat" type="checkbox"><span>Foto satellitari sotto le strade</span></label>
+    <label class="toggle"><input id="tCompass" type="checkbox"><span>Bussola da fermo (iOS chiede il permesso a ogni apertura)</span></label>
+    <label class="slider">Velocità simulazione <output id="oSim"></output><input id="sSim" type="range" min="30" max="140" step="10"></label>
+
+    <h3>Segnalazioni</h3>
+    <p class="muted"><span id="obsCount">0</span> ostacoli segnati · <span id="blockCount">0</span> strade chiuse (valgono 7 giorni). Tocca la mappa per aggiungerne.</p>
+    <div class="row"><button id="btnClearObs" class="btn ghost small">Cancella ostacoli</button><button id="btnClearBlocks" class="btn ghost small">Cancella chiusure</button></div>
+    <p class="hint">Dati delle mappe: OpenStreetMap (OpenFreeMap), percorsi OSRM e Valhalla, ricerca Photon.</p>
+  </div>
+</div>
+
+<div id="stagesModal" class="modal" hidden>
+  <div class="panel">
+    <header><h2>Prove salvate</h2><button class="iconbtn close" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <p class="hint">Una prova salvata tiene il percorso con le sue note e funziona anche senza connessione. Fai "Simula" una volta con la rete: le mappe lungo il percorso restano in memoria.</p>
+    <ul id="stageList" class="stagelist"></ul>
+    <div class="row"><label class="btn ghost small filebtn">Importa dal navigatore rally (.json)<input id="inImport" type="file" accept=".json,application/json"></label></div>
+    <p class="hint">Nel navigatore rally di prima: bandierina → "Esporta tutto", poi qui scegli il file. Porta le prove con le note corrette, gli ostacoli e la taratura.</p>
+  </div>
+</div>
+
+<div id="statsModal" class="modal" hidden>
+  <div class="panel">
+    <header><h2>Statistiche</h2><button class="iconbtn close" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div id="statRows" class="statrows"></div>
+    <div class="row"><button id="btnStatsReset" class="btn ghost small">Azzera</button></div>
+  </div>
+</div>
+
+<div id="placeModal" class="modal" hidden>
+  <div class="panel small">
+    <header><h2>Luogo salvato</h2><button class="iconbtn close" data-close aria-label="Chiudi"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></header>
+    <div class="row presets"><button class="chip" data-n="Casa" data-l="C" data-c="#72cc72">Casa</button><button class="chip" data-n="Lavoro" data-l="L" data-c="#5fa8ee">Lavoro</button><button class="chip" data-n="Giulia" data-l="G" data-c="#ff7ac8">Giulia</button></div>
+    <div class="placeform"><div id="plPreview" class="plpreview"></div>
+      <div><label class="select">Nome<input id="plName" type="text" maxlength="40"></label><label class="select">Lettera<input id="plLetter" type="text" maxlength="2"></label></div></div>
+    <div id="plColors" class="swatches"></div>
+    <div class="edactions"><button id="plDel" class="btn ghost danger">Elimina</button><button id="plSave" class="btn go">Salva</button></div>
+  </div>
+</div>
+
+<div id="saveModal" class="modal" hidden>
+  <form id="saveForm" class="panel small">
+    <h2>Salva prova</h2>
+    <label class="select">Nome<input id="inStageName" type="text" maxlength="60" autocomplete="off" enterkeyhint="done"></label>
+    <div class="edactions"><button type="button" class="btn ghost" data-close>Annulla</button><button type="submit" class="btn go">Salva</button></div>
+  </form>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="vendor/maplibre/maplibre-gl.js"></script>
+<script src="vendor/jszip.min.js"></script>
+<script src="core/pacenotes.js"></script>
+<script src="core/util.js"></script>
+<script src="core/voice.js"></script>
+<script src="core/map.js"></script>
+<script src="core/engine.js"></script>
+<script src="core/ui.js"></script>
+<script src="styles/rally/cars.js"></script>
+<script src="styles/rally/rally.js"></script>
+<script src="styles/gta/gta.js"></script>
+<script src="core/boot.js"></script>
+</body>
+</html>

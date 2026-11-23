@@ -1,0 +1,98 @@
+/* APEX — stile GTA (da BLIP): nero, viola missione, giallo, Anton + Barlow Condensed, angoli vivi */
+body.style-gta{--bg:#000;--panel:rgba(0,0,0,.88);--panel2:#1c1c1c;--line:rgba(255,255,255,.14);--ink:#fff;--mute:#b9b9b9;--acc:#b84fd6;--acc-ink:#fff;--go:#fff;--r:2px;--r2:0px;--head:'Barlow Condensed',sans-serif;--body:'Barlow Condensed',system-ui,sans-serif;
+  --y:#f0c850;--b:#5fa8ee;--g:#72cc72;--rr:#e05050;--p:#b84fd6;--hp:#3fa34d;--ar:#3c8fd1}
+.style-gta .y{color:var(--y)}.style-gta .b{color:var(--b)}.style-gta .g{color:var(--g)}.style-gta .r{color:var(--rr)}.style-gta .p{color:var(--p)}
+.style-gta .btn,.style-gta .chip,.style-gta .pchip{text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+.style-gta .btn.go{background:#fff;color:#000}
+.style-gta .btn:active,.style-gta .chip:active{background:var(--p);color:#fff}
+.style-gta .fields{border:0;border-bottom:3px solid var(--p);background:rgba(0,0,0,.82)}
+.style-gta .sheet{border-radius:0;border-top:0;border-left:4px solid var(--y);background:rgba(0,0,0,.9)}
+.style-gta .panel{border-radius:0;border-left:4px solid var(--y);background:#0a0a0af2}
+.style-gta .panel h2{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:1px;text-transform:uppercase}
+.style-gta .panel h3{color:var(--y);text-transform:uppercase}
+.style-gta .fab,.style-gta .locate{border-radius:0;background:rgba(0,0,0,.8);border:0}
+.style-gta .pchip{border-radius:0;background:rgba(0,0,0,.8);border:0}
+.style-gta .summary b{font-family:Anton,Impact,sans-serif;font-weight:400}
+.style-gta #freehud{border-radius:0;background:rgba(0,0,0,.8);border:0;border-left:4px solid var(--y)}
+.style-gta .fspd b{font-family:Anton,Impact,sans-serif;font-weight:400}
+.style-gta .fwhere b{font-style:italic;font-size:20px}
+.style-gta .vehicle.garrowmk{width:36px}
+.style-gta .pin span{border-radius:50%;background:var(--y)!important}
+
+/* minimappa: la mappa diventa un riquadro in basso */
+body.gta-mini{background:radial-gradient(circle at 50% 35%,#20252b,#000 75%)}
+body.gta-mini #map{inset:auto;left:12px;bottom:calc(var(--safe-b) + 34px);width:min(48vw,360px);height:min(32vh,250px);border-radius:14px;overflow:hidden;box-shadow:0 0 0 3px #000d,0 8px 24px #000}
+
+/* HUD di guida */
+.style-gta #hud{position:fixed;inset:0;pointer-events:none;z-index:1000;font-family:'Barlow Condensed',sans-serif}
+.ghelp{position:absolute;top:calc(var(--safe-t) + 10px);left:10px;max-width:calc(100vw - 150px);min-width:200px;background:rgba(0,0,0,.85);padding:10px 14px 10px 10px;display:flex;gap:12px;align-items:center}
+.garrow{width:56px;height:56px;flex:none}.garrow svg{width:100%;height:100%}
+.gdist{font-family:Anton,Impact,sans-serif;font-size:32px;line-height:1.05}
+.gtext{font-size:19px;font-weight:600;line-height:1.15}
+body.gta-mini .ghelp{display:none}
+.gbig{position:absolute;left:0;right:0;top:calc(var(--safe-t) + 84px);text-align:center;display:none;padding:0 70px}
+body.gta-mini .gbig{display:block}
+.garrow.big{width:min(32vw,150px);height:min(32vw,150px);margin:0 auto}
+.gbigdist{font-family:Anton,Impact,sans-serif;font-size:min(17vw,84px);line-height:1;text-shadow:3px 3px 0 #000}
+.gbigtext{font-size:24px;font-weight:600;line-height:1.15;margin-top:6px;text-shadow:2px 2px 0 #000}
+.gbigspeed{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:12px}
+.gbigspeed .n{font-family:Anton,Impact,sans-serif;font-size:46px;line-height:1}
+.gbigspeed small{font-size:19px;font-weight:700}
+.pop{animation:gpop .35s ease-out}
+@keyframes gpop{from{transform:translateY(-10px);opacity:0}}
+.gtr{position:absolute;top:calc(var(--safe-t) + 8px);right:12px;text-align:right}
+.grem{font-family:Anton,Impact,sans-serif;font-size:34px;line-height:1.1;color:var(--g);text-shadow:2px 2px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000}
+.geta{font-size:18px;line-height:1.15;font-weight:700;text-shadow:1px 1px 0 #000,0 0 3px #000}
+.gstars{display:flex;gap:1px;justify-content:flex-end;margin-top:4px;min-height:26px}
+.gstars svg{width:27px;height:27px}
+.flash{animation:gflash .45s steps(2) infinite}
+@keyframes gflash{50%{opacity:.2}}
+.gbl{position:absolute;left:12px;bottom:calc(var(--safe-b) + 14px);width:min(40vw,270px)}
+body.gta-mini .gbl{width:min(48vw,360px)}
+body.gta-mini .gspeedrow{display:none}
+.gspeedrow{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.gspeed{font-family:Anton,Impact,sans-serif;font-size:36px;line-height:1;text-shadow:2px 2px 0 #000,-1px -1px 0 #000}
+.gspeed small{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px}
+.glimit{width:42px;height:42px;border-radius:50%;background:#fff;border:5px solid #d42020;color:#000;font:700 17px Arial,sans-serif;display:flex;align-items:center;justify-content:center;flex:none}
+.gbigspeed .glimit{width:54px;height:54px;font-size:22px;border-width:6px}
+.gbars{display:flex;gap:3px}
+.gbar{height:10px;background:rgba(0,0,0,.6);flex:1;box-shadow:0 0 0 1px rgba(0,0,0,.45)}
+.gbar i{display:block;height:100%;transition:width .8s}
+.gbar.hp i{background:var(--hp)}.gbar.ar i{background:var(--ar)}
+.gbr{position:absolute;right:12px;bottom:calc(var(--safe-b) + 14px);text-align:right;text-shadow:2px 2px 0 #000,0 0 4px #000;max-width:52vw}
+body.gta-mini .gbr{max-width:calc(100vw - min(48vw,360px) - 40px)}
+.gzone{font-size:24px;font-weight:700;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gstreet{font-size:18px;font-weight:600;font-style:italic;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fadein{animation:gfadein .8s ease-out}
+@keyframes gfadein{from{opacity:0;transform:translateX(12px)}}
+.gctrls{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:7px;pointer-events:auto}
+.gctrls button{width:46px;height:46px;padding:0;background:rgba(0,0,0,.72);color:#fff;font-size:20px;border:0;cursor:pointer}
+.gsiren{position:absolute;inset:0;pointer-events:none;opacity:0}
+.gsiren.on{opacity:1;animation:gsiren 1s infinite}
+@keyframes gsiren{0%,49%{box-shadow:inset 0 0 70px 12px #ff1a1a99}50%,100%{box-shadow:inset 0 0 70px 12px #1a4dff99}}
+.gstation{position:absolute;left:50%;top:calc(var(--safe-t) + 100px);transform:translateX(-50%);font-family:Anton,Impact,sans-serif;font-size:26px;letter-spacing:1px;text-shadow:2px 2px 0 #000;white-space:nowrap;opacity:0;transition:opacity .5s;pointer-events:none}
+.gstation.on{opacity:1}
+.style-gta.driving .locate{border-radius:0;right:12px;bottom:auto;top:calc(50% + 150px)}
+
+/* ruota della radio */
+.gwheel{position:fixed;inset:0;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(9px) brightness(.7);backdrop-filter:blur(9px) brightness(.7);display:flex;align-items:center;justify-content:center;z-index:2500;font-family:'Barlow Condensed',sans-serif;color:#fff}
+.gring{position:relative;width:min(94vw,82vh,520px);height:min(94vw,82vh,520px)}
+.gring .st{position:absolute;width:clamp(62px,18vw,80px);height:clamp(62px,18vw,80px);transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 50% 35%,#3a3a3acc,#111c);box-shadow:0 0 0 2px #ffffff22,0 4px 10px #0009;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:.95;cursor:pointer;color:#cfcfcf;transition:transform .15s,background .15s;overflow:hidden;padding:4px}
+.gring .st.sel{background:#f2f2f2;color:#111;box-shadow:0 0 0 4px #3c8fd1,0 0 18px #3c8fd1aa;transform:translate(-50%,-50%) scale(1.14)}
+.gring .st.off svg{width:62%;height:62%}
+.gring .st .lg{display:block;white-space:nowrap}
+.gringcenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:52%;text-shadow:2px 2px 2px #000}
+.gringname{font-weight:700;font-size:clamp(22px,6vw,30px);line-height:1.1}
+.gringtags{font-weight:600;font-size:clamp(16px,4.4vw,21px);opacity:.9;margin-top:4px;text-transform:capitalize}
+.gringstate{font-weight:700;font-size:15px;margin-top:8px;letter-spacing:1px;color:#9fc9f5}
+
+/* sottotitoli e banner */
+.gsub{position:fixed;left:50%;bottom:calc(var(--safe-b) + 92px);transform:translateX(-50%);font:600 23px 'Barlow Condensed',sans-serif;text-align:center;text-shadow:2px 2px 2px #000,0 0 5px #000;width:86vw;pointer-events:none;transition:opacity .4s;opacity:0;z-index:2400;color:#fff}
+body.gta-mini .gsub{bottom:auto;top:62%}
+.gsub.on{opacity:1}
+.gbanner{position:fixed;left:0;right:0;top:30%;text-align:center;pointer-events:none;z-index:2400}
+.gbanner .band{background:linear-gradient(90deg,#0000,#000c 18%,#000c 82%,#0000);padding:12px 0 14px}
+#gBTitle{font-family:Anton,Impact,sans-serif;font-size:min(12vw,74px);line-height:1.1;color:var(--y);text-shadow:3px 3px 0 #000;letter-spacing:1px;padding:0 10px}
+#gBSub{font:700 22px 'Barlow Condensed',sans-serif;margin-top:4px;color:#fff}
+@keyframes gBannerIn{from{transform:scale(1.7);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.flash,.gsiren.on,.pop,.fadein{animation:none}}
