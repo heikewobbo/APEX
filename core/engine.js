@@ -38,6 +38,7 @@
     if (old) A.reloadMapStyle();
     A.emit('styleChanged', id);
     if (A.cur) A.emit('route', A.cur);
+    if (A.drive && A.drive.on) { document.body.classList.add('driving'); A.emit('driveStart', { sim: A.drive.sim, resume: true }); }
   };
 
   // ---------- ostacoli (segnati a mano), luoghi salvati, chiusure ----------
@@ -276,6 +277,7 @@
     if (!cur.man) { const r = buildManeuvers(o, route); cur.man = r.man; cur.names = r.names; cur.viaS = r.viaS; }
     if (cur.limits === undefined) cur.limits = buildLimits(o);
     cur.camsOn = camsOnRoute(route);
+    fetchOsmLimits(cur);
   }
   const DIRW = { left: 'a sinistra', right: 'a destra', 'slight left': 'leggermente a sinistra', 'slight right': 'leggermente a destra', 'sharp left': 'tutto a sinistra', 'sharp right': 'tutto a destra', straight: 'dritto' };
   const ORD = ['', 'prima', 'seconda', 'terza', 'quarta', 'quinta', 'sesta', 'settima', 'ottava'];
@@ -327,6 +329,89 @@
     const c = o.geometry.coordinates, cum = [0];
     for (let i = 1; i < c.length; i++) cum.push(cum[i - 1] + A.distLL([c[i - 1][1], c[i - 1][0]], [c[i][1], c[i][0]]));
     return { cum, v: ms.map(x => !x || x.unknown || x.none || !x.speed ? 0 : (x.unit === 'mph' ? Math.round(x.speed * 1.609) : x.speed)) };
+  }
+  // OSRM spesso non ha i limiti (e Valhalla mai): li leggo dalle strade di OpenStreetMap lungo il percorso
+  const IMPLICIT = { 'IT:urban': 50, 'IT:rural': 90, 'IT:trunk': 110, 'IT:motorway': 130, 'IT:living_street': 10, 'IT:bicycle_road': 30 };
+  function wayLimit(t) {
+    const ms = t['maxspeed:forward'] || t.maxspeed || t['maxspeed:backward'] || '';
+    let v = parseInt(ms);
+    if (!v && IMPLICIT[ms]) v = IMPLICIT[ms];
+    if (!v) { const ty = t['maxspeed:type'] || t['source:maxspeed'] || t['zone:maxspeed'] || ''; v = IMPLICIT[ty] || 0; }
+    if (v && /mph/.test(ms)) v = Math.round(v * 1.609);
+    if (!v) v = { motorway: 130, motorway_link: 80, living_street: 10, residential: 50 }[t.highway] || 0;
+    return v > 4 && v < 200 ? v : 0;
+  }
+  const osmWays = new Map(); // id -> { v, pts: [[lat, lon]...] }
+  function simplify(pts, tol) { // Douglas-Peucker in metri (approssimato)
+    if (pts.length < 3) return pts;
+    const k = Math.cos(pts[0][0] * Math.PI / 180) * 111320, P = p => [p[1] * k, p[0] * 110540];
+    const keep = new Uint8Array(pts.length); keep[0] = keep[pts.length - 1] = 1;
+    const st = [[0, pts.length - 1]];
+    while (st.length) {
+      const [a, b] = st.pop(), A0 = P(pts[a]), B0 = P(pts[b]); let md = 0, mi = -1;
+      const dx = B0[0] - A0[0], dy = B0[1] - A0[1], L2 = dx * dx + dy * dy || 1;
+      for (let i = a + 1; i < b; i++) { const C = P(pts[i]); let t = ((C[0] - A0[0]) * dx + (C[1] - A0[1]) * dy) / L2; t = Math.max(0, Math.min(1, t)); const d = Math.hypot(C[0] - A0[0] - t * dx, C[1] - A0[1] - t * dy); if (d > md) { md = d; mi = i; } }
+      if (md > tol) { keep[mi] = 1; st.push([a, mi], [mi, b]); }
+    }
+    return pts.filter((_, i) => keep[i]);
+  }
+  function matchLimits(route) {
+    // griglia per cercare in fretta i tratti di strada vicini
+    const G = new Map(), cell = 0.002, key = (a, b) => Math.floor(a / cell) + ':' + Math.floor(b / cell);
+    for (const w of osmWays.values()) for (let i = 1; i < w.pts.length; i++) {
+      const a = w.pts[i - 1], b = w.pts[i], k = key((a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
+      if (!G.has(k)) G.set(k, []); G.get(k).push([a, b, w.v]);
+    }
+    const step = 20, n = Math.max(2, Math.ceil(route.length / step) + 1), cum = [], v = []; let hit = 0;
+    for (let i = 0; i < n; i++) {
+      const s = Math.min(route.length, i * step), p = A.pointAtS(route, s).ll, hd = A.routeBearing(route, s);
+      let best = null, bd = 22;
+      const ci = Math.floor(p[0] / cell), cj = Math.floor(p[1] / cell);
+      for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) for (const [a, b, lim] of G.get((ci + di) + ':' + (cj + dj)) || []) {
+        const ang = Math.abs(A.angDiff(A.bearingLL(a, b), hd)); if (ang > 35 && ang < 145) continue;
+        const k = Math.cos(p[0] * Math.PI / 180) * 111320, ax = (a[1] - p[1]) * k, ay = (a[0] - p[0]) * 110540, bx = (b[1] - p[1]) * k, by = (b[0] - p[0]) * 110540;
+        const dx = bx - ax, dy = by - ay, L2 = dx * dx + dy * dy || 1; let t = -(ax * dx + ay * dy) / L2; t = Math.max(0, Math.min(1, t));
+        const d = Math.hypot(ax + t * dx, ay + t * dy); if (d < bd) { bd = d; best = lim; }
+      }
+      if (best !== null) hit++;
+      cum.push(s); v.push(best || 0);
+    }
+    // un buco breve (incrocio, rotonda) prende il limite di prima
+    for (let i = 1; i < v.length; i++) if (!v[i] && v[i - 1]) { let j = i; while (j < v.length && !v[j]) j++; if (j - i <= 5) for (let q = i; q < j; q++) v[q] = v[i - 1]; i = j; }
+    return { L: { cum, v }, cover: hit / n };
+  }
+  let limReq = 0;
+  async function fetchOsmLimits(cur) {
+    if (!cur || cur.limitsOSM) return;
+    const my = ++limReq, route = cur.route;
+    let m = osmWays.size ? matchLimits(route) : { cover: 0 };
+    if (m.cover < 0.85 && navigator.onLine !== false) {
+      let tol = 10, pts = simplify(route.latlon, tol);
+      while (pts.length > 900) { tol *= 1.6; pts = simplify(route.latlon, tol); }
+      const line = pts.map(p => p[0].toFixed(5) + ',' + p[1].toFixed(5)).join(',');
+      const q = `[out:json][timeout:30];way["highway"]["highway"!~"^(footway|path|cycleway|steps|pedestrian|track|bridleway|corridor|platform|proposed|construction)$"](around:25,${line});out tags geom;`;
+      try {
+        const r = await fetch(OVERPASS, { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+        const j = await r.json();
+        for (const e of j.elements || []) if (e.type === 'way' && e.geometry) osmWays.set(e.id, { v: wayLimit(e.tags || {}), pts: e.geometry.map(g => [g.lat, g.lon]) });
+        if (osmWays.size > 60000) { const ks = [...osmWays.keys()].slice(0, osmWays.size - 40000); ks.forEach(k => osmWays.delete(k)); }
+      } catch { return; }
+      if (my !== limReq || A.cur !== cur) return;
+      m = matchLimits(route);
+    }
+    if (A.cur !== cur || !m.L) return;
+    const old = cur.limits;
+    // dove OSRM conosce il limite tengo il suo, altrimenti quello di OpenStreetMap
+    if (old && old.v.length) { const sc = old.cum[old.cum.length - 1] / (route.length || 1); m.L.v = m.L.v.map((x, i) => limFrom(old, m.L.cum[i] * sc) || x); }
+    cur.limits = m.L; cur.limitsOSM = true;
+    if (cur.stage) A.db.get('stages', cur.stage).then(st => { if (st) { st.limits = cur.limits; st.limitsOSM = true; A.db.put('stages', cur.stage, st); } }).catch(() => {});
+    A.emit('limits', cur.limits);
+  }
+  A.fetchOsmLimits = fetchOsmLimits;
+  function limFrom(L, t) {
+    let lo = 0, hi = L.cum.length - 1;
+    while (hi - lo > 1) { const m = (lo + hi) >> 1; if (L.cum[m] <= t) lo = m; else hi = m; }
+    return L.v[Math.min(lo, L.v.length - 1)] || 0;
   }
   A.limitAtS = s => {
     const cur = A.cur, L = cur && cur.limits; if (!L || !L.v.length) return null;
@@ -572,7 +657,7 @@
         id, name, created: old ? old.created : Date.now(), updated: Date.now(),
         plan: { from: A.plan.from, to: A.plan.to, vias: A.plan.vias },
         osrm: { distance: cur.osrm.distance, duration: cur.osrm.duration, geometry: cur.osrm.geometry },
-        man: cur.man, names: cur.names, viaS: cur.viaS, limits: cur.limits, extra
+        man: cur.man, names: cur.names, viaS: cur.viaS, limits: cur.limits, limitsOSM: !!cur.limitsOSM, extra
       };
       try { await A.db.put('stages', id, rec); } catch { A.toast('Non sono riuscito a salvare la prova'); return; }
       cur.stage = id; cur.stageName = name; cur.stageExtra = extra; A.keepData();
@@ -585,7 +670,7 @@
       A.routes = [st.osrm]; A.routeIdx = 0; A.routeInfo = {};
       const coords = st.osrm.geometry.coordinates;
       const gen = P.generate(coords, A.style && A.style.genOptions ? A.style.genOptions() : {});
-      const cur = A.cur = { osrm: st.osrm, coords, gen, route: gen.route, stage: id, stageName: st.name, stageExtra: st.extra || {}, man: st.man || [], names: st.names || [], viaS: st.viaS || [], limits: st.limits || null, extra: {} };
+      const cur = A.cur = { osrm: st.osrm, coords, gen, route: gen.route, stage: id, stageName: st.name, stageExtra: st.extra || {}, man: st.man || [], names: st.names || [], viaS: st.viaS || [], limits: st.limits || null, limitsOSM: !!st.limitsOSM, extra: {} };
       buildRouteData(cur);
       Object.assign(A.plan, st.plan || {});
       A.setOverlay('route', A.lineF(cur.route.latlon)); A.setOverlay('alts', A.fc([]));

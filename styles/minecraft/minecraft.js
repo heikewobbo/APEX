@@ -455,8 +455,9 @@
       off = [
         A.on('places', renderFree),
         A.on('gps', freeAction), A.on('where', freeAction),
-        A.on('driveStart', () => {
+        A.on('driveStart', d => {
           $('hud').hidden = false; curMan = undefined; lastLvl = -1;
+          if (d && d.resume) { renderBars(); return; }
           const now = Date.now();
           if (now - G.lastDrive > 15 * 60000) G.food = 20;
           Object.assign(G, { hp: 20, hurtAt: 0, regenAt: now, foodAt: now, stopSince: 0, lostAny: false, veloxOk: 0, hungerSaid: G.food <= 10 });

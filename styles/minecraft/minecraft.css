@@ -92,3 +92,4 @@ body.has-route .mfree,body.driving .mfree{display:none}
 .hotbar .slot em ~ .mci,.hotbar .slot .mci{margin-top:-6px}
 @media (prefers-reduced-motion:reduce){.mhearts.low i,.mhearts.hit,.mtitle.in{animation:none}.mtoast{transition:none}}
 .style-minecraft.driving .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 150px)}
+.style-minecraft.driving .fabs{bottom:auto;top:calc(var(--safe-t) + 186px);right:10px}

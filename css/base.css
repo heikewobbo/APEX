@@ -50,7 +50,8 @@ body.driving .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 84px)}
 body.has-route .locate{bottom:calc(var(--safe-b) + 230px)}
 .locate svg{fill:none}
 body.following .locate svg{fill:var(--acc);stroke:var(--acc)}
-body.driving .plan,body.driving .fabs,body.driving .sheet{display:none}
+body.driving .plan,body.driving .sheet,body.driving #btnStages,body.driving #btnStats{display:none}
+body.driving .fabs{top:auto;bottom:calc(var(--safe-b) + 152px);z-index:1100}
 body.driving .locate{bottom:calc(var(--safe-b) + 96px)}
 
 /* senza percorso, mentre la mappa ti segue */

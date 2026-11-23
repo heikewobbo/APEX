@@ -115,3 +115,6 @@ body.rdr-nopaper .wpaper{display:none}
 @keyframes wban{from{opacity:0;transform:scaleY(.3)}}
 @keyframes wmedal{from{transform:translateY(-30px) rotate(-25deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){.wreveal.on{animation:none;opacity:1}.pop,.wbanner,.wbanner .medal svg,.wwanted.on b{animation:none}}
+.style-rdr.driving .fabs{bottom:auto;top:calc(50% - 133px);right:12px}
+.style-rdr.driving #btnSettings{width:46px;height:46px;background:#1b1611d9;border:1.5px solid #f4ead2aa;box-shadow:none}
+.style-rdr.driving #btnSettings svg{stroke:#f4ead2}

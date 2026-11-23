@@ -96,3 +96,5 @@ body.gta-mini .gsub{bottom:auto;top:62%}
 #gBSub{font:700 22px 'Barlow Condensed',sans-serif;margin-top:4px;color:#fff}
 @keyframes gBannerIn{from{transform:scale(1.7);opacity:0}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.flash,.gsiren.on,.pop,.fadein{animation:none}}
+.style-gta.driving .fabs{bottom:auto;top:calc(50% - 228px);right:12px}
+.style-gta.driving #btnSettings{width:46px;height:46px}

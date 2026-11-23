@@ -304,6 +304,7 @@
         A.on('driveStart', d => {
           $('hud').hidden = false; curMan = undefined; W.stars = 0; lastStreet = ''; lastZone = '';
           $('gStars').innerHTML = ''; $('gSiren').classList.remove('on'); applyMini();
+          if (d && d.resume) return;
           const dest = (A.plan.to || {}).name || 'Destinazione';
           banner(dest.toUpperCase(), '', 3200, '#fff');
           const vias = A.plan.vias.filter(v => !v.done);

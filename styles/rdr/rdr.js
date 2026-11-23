@@ -314,8 +314,9 @@
         } else { roadArm = Date.now(); sub('Strada sbarrata davanti? Tocca di nuovo', 3000); }
       };
       off = [
-        A.on('driveStart', () => {
+        A.on('driveStart', d => {
           $('hud').hidden = false; curMan = undefined; lastStreet = '';
+          if (d && d.resume) return;
           Object.assign(B, { on: false, since: 0, under: 0, trip: 0, lastAdd: 0, lastS: 0 });
           $('wWanted').hidden = true;
           const dest = (A.plan.to || {}).name || 'destinazione';
