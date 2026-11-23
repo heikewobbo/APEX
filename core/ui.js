@@ -346,6 +346,7 @@
     $('tSat').checked = s.satellite; $('tCompass').checked = s.compass; $('sSim').value = s.sim; $('oSim').textContent = s.sim + ' km/h';
     renderObstacles();
     renderStyleSettings();
+    if (A.renderMP) A.renderMP();
   }
   function renderStyleSettings() {
     const box = $('setStyle'); if (!box) return;

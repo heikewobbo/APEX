@@ -70,10 +70,12 @@
       setTimeout(fin, f32.length / RATE * 1000 + 1500);
     });
   }
-  function tts(text, rate = 1.1) {
+  function tts(text, rate = 1.1, lang) {
     return new Promise(res => {
       if (!text || !('speechSynthesis' in window)) return res();
-      const u = new SpeechSynthesisUtterance(text); u.lang = 'it-IT'; if (itVoice) u.voice = itVoice; u.rate = rate;
+      const u = new SpeechSynthesisUtterance(text); u.rate = rate;
+      if (lang && !/^it/.test(lang)) { u.lang = lang; const v = speechSynthesis.getVoices().filter(x => x.lang.replace('_', '-').startsWith(lang.slice(0, 2))); const pick = v.find(x => x.lang.replace('_', '-') === lang) || v[0]; if (pick) u.voice = pick; }
+      else { u.lang = 'it-IT'; if (itVoice) u.voice = itVoice; }
       const end = () => { A.emit('speechEnd'); res(); };
       u.onstart = () => A.emit('speechStart'); u.onend = end; u.onerror = end;
       speechSynthesis.speak(u); setTimeout(end, 800 + text.length * 110);
@@ -99,11 +101,11 @@
     } finally { speaking = false; A.emit('speechEnd'); }
   }
   // frase libera (indicazioni): sintesi vocale
-  async function speak(text) {
+  async function speak(text, opts = {}) {
     if (S().muted) return;
     if ('speechSynthesis' in window) speechSynthesis.cancel();
     speaking = true; setSession();
-    try { await tts(text, 1.05); } finally { speaking = false; }
+    try { await tts(text, opts.rate || 1.05, opts.lang); } finally { speaking = false; }
   }
   // suoni brevi: note [frequenza, durata s, inizio s], onda 'sine' | 'square' | 'triangle'
   function tone(notes, type = 'sine', vol = 0.25) {

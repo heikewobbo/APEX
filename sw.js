@@ -1,7 +1,7 @@
 // APEX — l'app funziona senza rete; mappe, caratteri e dati già visti restano in memoria
-const CACHE = 'apex-v5';
-const FILES = ['./', 'index.html', 'css/base.css', 'core/pacenotes.js', 'core/util.js', 'core/voice.js', 'core/map.js', 'core/engine.js', 'core/ui.js', 'core/boot.js',
-  'styles/rally/rally.js', 'styles/rally/rally.css', 'styles/rally/cars.js', 'styles/gta/gta.js', 'styles/gta/gta.css', 'styles/rdr/rdr.js', 'styles/rdr/rdr.css', 'styles/minecraft/minecraft.js', 'styles/minecraft/minecraft.css',
+const CACHE = 'apex-v6';
+const FILES = ['./', 'index.html', 'css/base.css', 'core/pacenotes.js', 'core/util.js', 'core/voice.js', 'core/map.js', 'core/engine.js', 'core/draw.js', 'core/ui.js', 'vendor/mqtt.min.js', 'core/multi.js', 'core/boot.js',
+  'styles/rally/rally.js', 'styles/rally/rally.css', 'styles/rally/cars.js', 'styles/gta/gta.js', 'styles/gta/gta.css', 'styles/rdr/rdr.js', 'styles/rdr/rdr.css', 'styles/minecraft/minecraft.js', 'styles/minecraft/minecraft.css', 'styles/specchio/specchio.js', 'styles/specchio/specchio.css', 'styles/synth/synth.js', 'styles/synth/synth.css', 'styles/radar/radar.js', 'styles/radar/radar.css', 'styles/acquerello/acquerello.js', 'styles/acquerello/acquerello.css', 'styles/cockpit/cockpit.js', 'styles/cockpit/cockpit.css', 'styles/dakar/dakar.js', 'styles/dakar/dakar.css',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css', 'vendor/jszip.min.js', 'manifest.webmanifest', 'icon-192.png', 'nosleep.mp4'];
 const TILES = 'apex-mappe';
 const TILE_HOSTS = /^tiles\.openfreemap\.org$|^server\.arcgisonline\.com$|^fonts\.(googleapis|gstatic)\.com$/;

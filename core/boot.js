@@ -6,6 +6,7 @@
   A.uiInit();
   A.voice.load();
   A.startGeo();
+  if (A.mpInit) A.mpInit();
   A.keepData();
   A.migrate().then(() => { A.voice.load(); A.emit('dataReady'); });
   A.mapReady(() => A.loadCameras());

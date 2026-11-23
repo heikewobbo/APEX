@@ -14,13 +14,19 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,600;1,700&family=Barlow:wght@400;600&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Rye&family=Pixelify+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,800;1,600;1,700&family=Barlow:wght@400;600&family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Rye&family=Pixelify+Sans:wght@400;500&family=Audiowide&family=Share+Tech+Mono&family=Klee+One:wght@400;600&family=B612:wght@400;700&family=B612+Mono:wght@400;700&family=Saira+Condensed:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="vendor/maplibre/maplibre-gl.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="styles/rally/rally.css">
 <link rel="stylesheet" href="styles/gta/gta.css">
 <link rel="stylesheet" href="styles/rdr/rdr.css">
 <link rel="stylesheet" href="styles/minecraft/minecraft.css">
+<link rel="stylesheet" href="styles/specchio/specchio.css">
+<link rel="stylesheet" href="styles/synth/synth.css">
+<link rel="stylesheet" href="styles/radar/radar.css">
+<link rel="stylesheet" href="styles/acquerello/acquerello.css">
+<link rel="stylesheet" href="styles/cockpit/cockpit.css">
+<link rel="stylesheet" href="styles/dakar/dakar.css">
 </head>
 <body>
 <div id="map"></div>
@@ -43,6 +49,7 @@
 </section>
 
 <div class="fabs">
+  <button id="btnMP" class="iconbtn fab mpbtn" hidden aria-label="Giocatori online"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.6 6-5.6s6 2.3 6 5.6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 13.6c3 0 5.5 1.9 5.5 4.9"/></svg><b>0</b></button>
   <button id="btnSettings" class="iconbtn fab" aria-label="Impostazioni"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v2.6M12 18.6v2.6M21.2 12h-2.6M5.4 12H2.8M18.5 5.5l-1.8 1.8M7.3 16.7l-1.8 1.8M18.5 18.5l-1.8-1.8M7.3 7.3L5.5 5.5"/></svg></button>
   <button id="btnStages" class="iconbtn fab" aria-label="Prove salvate"><svg viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></button>
   <button id="btnStats" class="iconbtn fab" aria-label="Statistiche"><svg viewBox="0 0 24 24"><path d="M5 20V11M12 20V5M19 20v-6"/></svg></button>
@@ -81,6 +88,9 @@
     <div id="styleList" class="stylelist"></div>
     <p class="hint">Le strade e i dati sono gli stessi per tutti gli stili: cambia l'aspetto e le funzioni di ognuno.</p>
     <div id="setStyle"></div>
+
+    <h3>Multiplayer</h3>
+    <div id="mpBox"></div>
 
     <h3>Percorso</h3>
     <label class="toggle"><input id="tNoMotorway" type="checkbox"><span>Evita le autostrade</span></label>
@@ -150,12 +160,21 @@
 <script src="core/voice.js"></script>
 <script src="core/map.js"></script>
 <script src="core/engine.js"></script>
+<script src="core/draw.js"></script>
 <script src="core/ui.js"></script>
+<script src="vendor/mqtt.min.js"></script>
+<script src="core/multi.js"></script>
 <script src="styles/rally/cars.js"></script>
 <script src="styles/rally/rally.js"></script>
 <script src="styles/gta/gta.js"></script>
 <script src="styles/rdr/rdr.js"></script>
 <script src="styles/minecraft/minecraft.js"></script>
+<script src="styles/specchio/specchio.js"></script>
+<script src="styles/synth/synth.js"></script>
+<script src="styles/radar/radar.js"></script>
+<script src="styles/acquerello/acquerello.js"></script>
+<script src="styles/cockpit/cockpit.js"></script>
+<script src="styles/dakar/dakar.js"></script>
 <script src="core/boot.js"></script>
 </body>
 </html>

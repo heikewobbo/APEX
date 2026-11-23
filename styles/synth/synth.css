@@ -1,0 +1,36 @@
+/* APEX — stile SYNTHWAVE */
+body.style-synth{--bg:#12051f;--panel:#1c0a33;--panel2:#2a0f45;--line:#5a2a7a;--ink:#ffe8ff;--mute:#c49ad8;--acc:#ff2bd6;--acc-ink:#fff;--go:#ff2bd6;--head:'Audiowide',system-ui,sans-serif;color-scheme:dark}
+.style-synth #map{background:#12051f}
+.style-synth .fields,.style-synth .sheet,.style-synth .panel,.style-synth .sugg,.style-synth .fab,.style-synth .locate,.style-synth .maplibregl-popup-content,.style-synth #freehud{border:1px solid #ff2bd6;box-shadow:0 0 12px rgba(255,43,214,.45),inset 0 0 10px rgba(38,232,255,.12)}
+.style-synth .btn.go{background:linear-gradient(90deg,#ff2bd6,#ff8a00);box-shadow:0 0 14px rgba(255,43,214,.6)}
+.style-synth .panel h2,.style-synth .summary b,.style-synth .stylebtn b{font-family:var(--head);background:linear-gradient(180deg,#26e8ff,#ff2bd6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.style-synth .r{color:#ff4d6d}
+.style-synth #hud{position:fixed;inset:0;z-index:1000;pointer-events:none;color:#fff;font-family:var(--head)}
+.sysky{position:fixed;left:0;right:0;top:0;height:34vh;pointer-events:none;z-index:4;display:none;background:linear-gradient(180deg,#0b0220 0%,#3a0a5c 55%,rgba(255,43,214,.0) 100%)}
+body.style-synth.driving .sysky{display:block}
+body.sy-nosun .sysky{display:none!important}
+.sysky .sun{position:absolute;left:50%;bottom:4vh;width:42vw;max-width:300px;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:linear-gradient(180deg,#ffe600 0%,#ff8a00 45%,#ff2bd6 100%);-webkit-mask:linear-gradient(180deg,#000 50%,transparent 50%) 0 0/100% 12% repeat-y,linear-gradient(#000 0 0) 0 0/100% 50% no-repeat;mask:linear-gradient(180deg,#000 50%,transparent 50%) 0 0/100% 12% repeat-y,linear-gradient(#000 0 0) 0 0/100% 50% no-repeat;box-shadow:0 0 60px rgba(255,138,0,.6);opacity:.95}
+.sycard{position:absolute;top:calc(var(--safe-t) + 10px);left:10px;right:112px;display:flex;gap:10px;align-items:center;padding:10px 12px;background:rgba(18,5,31,.78);border:2px solid #26e8ff;box-shadow:0 0 14px rgba(38,232,255,.6),inset 0 0 12px rgba(38,232,255,.25);border-radius:6px}
+.syarrow{width:56px;height:56px;flex:none;filter:drop-shadow(0 0 6px #ffe600)}.syarrow svg{width:100%;height:100%}
+.sydist{font-size:30px;line-height:1;color:#ffe600;text-shadow:0 0 10px #ff8a00}
+.sytext{font:600 16px/1.2 system-ui,sans-serif;color:#ffd1ff}.sytext i{display:block;font-style:normal;color:#26e8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+.syright{position:absolute;top:calc(var(--safe-t) + 12px);right:10px;text-align:right;width:96px}
+.syrem{font-size:22px;color:#26e8ff;text-shadow:0 0 8px #26e8ff}
+.syeta{font:600 13px system-ui,sans-serif;color:#ffd1ff}
+.sybottom{position:absolute;left:14px;bottom:calc(var(--safe-b) + 14px);display:flex;align-items:flex-end;gap:12px}
+.syspd b{display:block;font-size:76px;line-height:.85;background:linear-gradient(180deg,#fff 0%,#9be7ff 38%,#ff2bd6 52%,#ffe600 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(255,43,214,.7))}
+.syspd span{font-size:13px;color:#26e8ff;letter-spacing:3px}
+body.sy-over .syspd b{background:#ff2b4a;-webkit-background-clip:text;background-clip:text;animation:syglitch .35s steps(2) infinite}
+@keyframes syglitch{50%{transform:translateX(3px);filter:drop-shadow(-3px 0 0 #26e8ff) drop-shadow(3px 0 0 #ff2bd6)}}
+.sylim{width:48px;height:48px;border-radius:50%;border:4px solid #ff2b4a;box-shadow:0 0 10px #ff2b4a;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:6px;background:rgba(18,5,31,.8)}
+.symsg{position:absolute;left:0;right:0;top:34%;text-align:center;font-size:24px;line-height:1.3;color:#ffe600;text-shadow:0 0 12px #ff2bd6,0 0 2px #000;opacity:0;transition:opacity .3s;padding:0 12px}
+.symsg.on{opacity:1}
+.syctrls{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+.syctrls button{width:46px;height:46px;border-radius:8px;background:rgba(18,5,31,.85);border:2px solid #ff2bd6;color:#ffe600;font-size:20px;box-shadow:0 0 10px rgba(255,43,214,.5);cursor:pointer}
+.syctrls button.off{color:#5a2a7a}
+.style-synth.driving .fabs{bottom:auto;top:calc(50% - 112px);right:12px}
+.style-synth.driving .locate{bottom:auto;top:calc(50% + 66px);right:12px}
+.style-synth .peer .pa{background:var(--c);filter:drop-shadow(0 0 6px var(--c))}
+.style-synth .peer .pn{font-family:var(--head);font-weight:400;background:rgba(18,5,31,.85);border:1px solid var(--c);box-shadow:0 0 8px var(--c)}
+@media (prefers-reduced-motion:reduce){body.sy-over .syspd b{animation:none}}
+.style-synth .vehicle.syveh{width:36px;filter:drop-shadow(0 0 8px #ff2bd6)}

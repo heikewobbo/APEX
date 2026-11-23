@@ -83,7 +83,7 @@
     if (hd != null) gps.heading = hd;
     // statistiche (solo guida vera)
     if (gps.fix && c.accuracy < 50) { const d = A.distLL(gps.fix.ll, ll); if (d < 300 && sp > 1.5) { A.stats.km += d / 1000; A.stats.sec += Math.min(10, (t - gps.fix.t) / 1000); A.stats.maxKmh = Math.max(A.stats.maxKmh, Math.round(sp * 3.6)); A.saveStats(); } }
-    gps.fix = { ll, speed: sp, acc: c.accuracy, t, heading: hd };
+    gps.fix = { ll, speed: sp, acc: c.accuracy, t, heading: hd, alt: c.altitude };
     if (drive.on && !drive.sim) drive.onFix(ll[0], ll[1], sp, c.accuracy, t, hd);
     A.emit('gps', gps.fix);
     if (!gps.firstFix) { gps.firstFix = true; A.emit('firstFix', gps.fix); }
@@ -517,7 +517,7 @@
       A.saveStats(true);
       A.emit('driveStop');
       A.cam.follow(false); A.cam.flat();
-      if (A.cur) setTimeout(() => A.cam.fitRoute(A.cur.route.latlon), 450);
+      setTimeout(() => { if (A.cur && !this.on) A.cam.fitRoute(A.cur.route.latlon); }, 450);
     },
     async wake() { try { if ('wakeLock' in navigator) this.lock = await navigator.wakeLock.request('screen'); } catch { /* non supportato */ } nosleep.on(); },
     startSim() {

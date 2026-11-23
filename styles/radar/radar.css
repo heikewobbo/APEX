@@ -1,0 +1,36 @@
+/* APEX — stile RADAR */
+body.style-radar{--bg:#020a04;--panel:#03120a;--panel2:#062012;--line:#145a2a;--ink:#5cff86;--mute:#2fa456;--acc:#3cff6e;--acc-ink:#021006;--go:#3cff6e;--r:2px;--r2:2px;--head:'Share Tech Mono',ui-monospace,monospace;--body:'Share Tech Mono',ui-monospace,monospace;color-scheme:dark}
+.style-radar #map{background:#020a04}
+.style-radar .fields,.style-radar .sheet,.style-radar .panel,.style-radar .sugg,.style-radar .fab,.style-radar .locate,.style-radar .maplibregl-popup-content,.style-radar #freehud{border:1px solid #1d7a3c;box-shadow:0 0 10px rgba(60,255,110,.15)}
+.style-radar .btn.go{color:#021006}
+.style-radar .iconbtn svg{stroke:#3cff6e}
+.style-radar::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:6;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,.55) 100%)}
+.rdveh{width:30px}
+.rdveh .rdme{position:relative;width:30px;height:34px;filter:drop-shadow(0 0 5px #3cff6e)}
+.rdrings{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+.rdrings i{position:absolute;border:1px solid rgba(60,255,110,.38);border-radius:50%;transform:translate(-50%,-50%)}
+.rdrings i:nth-child(1){width:160px;height:160px}.rdrings i:nth-child(2){width:320px;height:320px}.rdrings i:nth-child(3){width:480px;height:480px}.rdrings i:nth-child(4){width:640px;height:640px;border-style:dashed}
+.rdsweep{position:absolute;width:640px;height:640px;transform:translate(-50%,-50%);border-radius:50%;background:conic-gradient(from 0deg,rgba(60,255,110,.32),rgba(60,255,110,0) 70deg,transparent 360deg);animation:rdspin 4s linear infinite}
+@keyframes rdspin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+.style-radar #hud{position:fixed;inset:0;z-index:1000;pointer-events:none;color:#3cff6e;font-family:var(--head);text-shadow:0 0 6px rgba(60,255,110,.7)}
+.rdtop,.rdbot{position:absolute;left:8px;right:8px;display:flex;justify-content:space-between;font-size:15px;background:rgba(2,10,4,.82);border:1px solid #1d7a3c;padding:6px 10px}
+.rdtop{top:calc(var(--safe-t) + 8px)}.rdbot{bottom:calc(var(--safe-b) + 8px)}
+.rdtop b,.rdbot b{font-size:20px;font-weight:400;color:#c8ffd6}
+.rdwpt{position:absolute;top:calc(var(--safe-t) + 54px);left:8px;right:70px;display:flex;gap:10px;align-items:center;background:rgba(2,10,4,.82);border:1px solid #1d7a3c;padding:8px 10px}
+.rdarrow{width:48px;height:48px;flex:none}.rdarrow svg{width:100%;height:100%;filter:drop-shadow(0 0 4px #3cff6e)}
+.rdl{font-size:14px}.rdl b{font-weight:400;font-size:22px;color:#c8ffd6}
+.rdt{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+.rdwarn{position:absolute;left:50%;top:36%;transform:translateX(-50%);font-size:22px;color:#ff3b30;border:2px solid #ff3b30;padding:6px 12px;background:rgba(20,0,0,.8);text-shadow:0 0 8px #ff3b30;animation:rdblink .7s steps(2) infinite;white-space:nowrap}
+@keyframes rdblink{50%{opacity:.25}}
+.rdradio{position:absolute;left:8px;right:8px;bottom:calc(var(--safe-b) + 56px);font-size:15px;line-height:1.3;color:#c8ffd6;background:rgba(2,10,4,.85);border-left:3px solid #3cff6e;padding:6px 10px;opacity:0;transition:opacity .3s}
+.rdradio.on{opacity:1}
+.rdctrls{position:absolute;right:8px;top:calc(var(--safe-t) + 54px);display:flex;flex-direction:column;gap:6px;pointer-events:auto}
+.rdctrls button{width:54px;height:40px;background:rgba(2,10,4,.9);border:1px solid #3cff6e;color:#3cff6e;font:15px var(--head);cursor:pointer}
+.rdctrls button.off{color:#145a2a;border-color:#145a2a}
+.style-radar.driving .fabs{bottom:auto;top:calc(var(--safe-t) + 194px);right:8px}
+.style-radar.driving #btnSettings{width:54px;height:40px;border-radius:2px}
+.style-radar.driving .locate{bottom:calc(var(--safe-b) + 110px);right:8px;border-radius:2px}
+.style-radar.driving .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 100px)}
+.style-radar .peer .pa{clip-path:none;inset:5px;border:2px solid var(--c);background:transparent;box-shadow:0 0 6px var(--c)}
+.style-radar .peer .pn{font-family:var(--head);font-weight:400;background:rgba(2,10,4,.85);color:var(--c);border:1px solid var(--c);border-radius:0}
+@media (prefers-reduced-motion:reduce){.rdsweep,.rdwarn{animation:none}}

@@ -93,3 +93,5 @@ body.has-route .mfree,body.driving .mfree{display:none}
 @media (prefers-reduced-motion:reduce){.mhearts.low i,.mhearts.hit,.mtitle.in{animation:none}.mtoast{transition:none}}
 .style-minecraft.driving .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 150px)}
 .style-minecraft.driving .fabs{bottom:auto;top:calc(var(--safe-t) + 186px);right:10px}
+.style-minecraft .peer .pa{clip-path:polygon(50% 0,100% 100%,50% 75%,0 100%);filter:drop-shadow(2px 2px 0 rgba(0,0,0,.6));image-rendering:pixelated}
+.style-minecraft .peer .pn{top:auto;bottom:26px;font-family:var(--head);font-weight:400;background:rgba(0,0,0,.45);border:0;border-radius:0;text-shadow:2px 2px 0 #3f3f3f;font-size:14px}

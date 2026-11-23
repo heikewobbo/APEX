@@ -1,0 +1,43 @@
+/* APEX — stile ROADBOOK DAKAR */
+body.style-dakar{--bg:#e8d3a8;--panel:#f6f1e3;--panel2:#ece3cd;--line:#cdbf9f;--ink:#1d1a16;--mute:#6e6455;--acc:#d64510;--acc-ink:#fff;--go:#d64510;--r:6px;--r2:4px;--head:'Saira Condensed','Barlow Condensed',system-ui,sans-serif;color-scheme:light}
+.style-dakar #map{background:#e8d3a8}
+.style-dakar .panel h2,.style-dakar .summary b,.style-dakar .stylebtn b{font-family:var(--head);font-weight:700;letter-spacing:.3px}
+.style-dakar .iconbtn svg{stroke:#1d1a16}
+.dkcase{display:grid;grid-template-columns:64px 92px 1fr;border-bottom:2px solid #1d1a16;background:#fbf8ef;min-height:96px}
+.dkcase>div{padding:6px 8px;border-right:1px solid #cdbf9f}
+.dkcase>div:last-child{border-right:0;position:relative}
+.dkc1{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.dkc1 i{font:700 13px var(--head);font-style:normal;background:#1d1a16;color:#fbf8ef;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center}
+.dkc1 b{font:700 22px/1 var(--head)}.dkc1 span{font:600 14px var(--head);color:#d64510}
+.dkc2{display:flex;align-items:center;justify-content:center}.dkc2 svg{width:80px;height:80px}
+.dkcap{font:700 18px var(--head)}
+.dknote{font:500 15px/1.2 var(--head);margin-top:3px}.dknote b{font-weight:700}
+.dkdanger{display:inline-block;margin-top:3px;font:700 14px var(--head);color:#fff;background:#d64510;padding:1px 6px;border-radius:3px}
+.dklim{position:absolute;right:8px;bottom:8px;width:34px;height:34px;border-radius:50%;border:4px solid #d62a1e;background:#fff;font:700 14px var(--head);display:flex;align-items:center;justify-content:center}
+.dkbook{margin-top:6px}.dkbh{font:700 16px var(--head);margin-bottom:6px;color:#6e6455}
+.dkbook ul{list-style:none;margin:0;padding:0;border:2px solid #1d1a16;border-bottom:0;border-radius:4px;overflow:hidden}
+.style-dakar #hud{position:fixed;left:0;right:0;top:0;height:60vh;z-index:1000;pointer-events:none;font-family:var(--head);color:#1d1a16}
+.dkico{position:absolute;top:var(--safe-t);left:0;right:0;display:flex;align-items:stretch;background:#161412;color:#ffb84a;border-bottom:3px solid #d64510;pointer-events:auto}
+.dkico>div{padding:4px 10px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid #3a342c}
+.dkico i{font:600 11px var(--head);font-style:normal;color:#b9a98c;letter-spacing:1px}
+.dkico b{font:700 34px/1 'Saira Condensed',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.dktrip{flex:1.4}.dkcapnow{flex:1}
+.dkspd{flex:.8;align-items:center}.dkspd b{font-size:24px;color:#fff}
+body.dk-over .dkspd b{color:#ff4a3a}
+.dkbtns{display:grid!important;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:4px;padding:5px!important;border-right:0!important}
+.dkbtns button{min-width:36px;background:#2b2620;color:#ffb84a;border:1px solid #4a4238;border-radius:4px;font:700 18px var(--head);cursor:pointer}
+.dkbtns button:last-child{grid-column:span 2;font-size:13px}
+.dkroll{position:absolute;top:calc(var(--safe-t) + 62px);left:0;right:0;bottom:0;overflow:hidden;background:#f6f1e3;border-bottom:3px solid #1d1a16;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.dkroll ul{list-style:none;margin:0;padding:0;transition:transform .5s ease}
+.dkroll .dkcase.done{opacity:.35}
+.dkroll .dkcase.now{background:#fff6c9;box-shadow:inset 6px 0 0 #d64510}
+.dkctrls{position:absolute;right:8px;top:calc(60vh + 10px);display:flex;flex-direction:column;gap:6px;pointer-events:auto}
+.dkctrls button{width:56px;height:38px;background:#161412;color:#ffb84a;border:1px solid #4a4238;border-radius:4px;font:700 14px var(--head);cursor:pointer}
+.dkctrls button.off{color:#6e6455}
+.dkmsg{position:absolute;left:50%;top:calc(60vh + 14px);transform:translateX(-50%);font:700 19px var(--head);background:#161412;color:#ffb84a;padding:6px 14px;border-radius:4px;opacity:0;transition:opacity .3s;white-space:nowrap}
+.dkmsg.on{opacity:1}
+.style-dakar.driving .fabs{bottom:auto;top:calc(60vh + 98px);right:8px}
+.style-dakar.driving .locate{bottom:calc(var(--safe-b) + 24px)}
+.style-dakar .peer .pa{background:var(--c);filter:drop-shadow(0 0 1px #1d1a16) drop-shadow(0 1px 1px #1d1a16)}
+.style-dakar .peer .pn{font-family:var(--head);background:#161412;color:#ffb84a;border-radius:3px}
+.style-dakar .vehicle.dkveh{width:34px;filter:drop-shadow(0 2px 2px rgba(60,40,20,.5))}

@@ -118,3 +118,5 @@ body.rdr-nopaper .wpaper{display:none}
 .style-rdr.driving .fabs{bottom:auto;top:calc(50% - 133px);right:12px}
 .style-rdr.driving #btnSettings{width:46px;height:46px;background:#1b1611d9;border:1.5px solid #f4ead2aa;box-shadow:none}
 .style-rdr.driving #btnSettings svg{stroke:#f4ead2}
+.style-rdr .peer .pa{clip-path:none;border-radius:50%;inset:5px;background:#f4ead2;border:2.5px solid var(--c);box-shadow:0 0 0 1.5px #1b1611}
+.style-rdr .peer .pn{font:italic 15px var(--body);background:#1b1611d9;border-radius:0;border-bottom:2px solid var(--c);color:#f4ead2}
