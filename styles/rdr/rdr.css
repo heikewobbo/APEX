@@ -1,0 +1,117 @@
+/* APEX — stile RED DEAD: pergamena, inchiostro seppia, rosso sangue di bue, caratteri a stampa d'epoca */
+body.style-rdr{--bg:#d8c39b;--panel:#eadcbc;--panel2:#e0cfaa;--line:#b39a72;--ink:#2b2118;--mute:#6e5a43;--acc:#9b1c16;--acc-ink:#f4ead2;--go:#9b1c16;--stop:#9b1c16;--r:4px;--r2:3px;
+  --head:'IM Fell English SC',Georgia,serif;--body:'IM Fell English',Georgia,'Times New Roman',serif;color-scheme:light;
+  --paper:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .3 0 0 0 0 .16 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
+.style-rdr #map{background:#dcc8a0}
+.style-rdr .r{color:var(--acc)}
+.style-rdr .fields,.style-rdr .sugg,.style-rdr .sheet,.style-rdr .panel,.style-rdr #freehud,.style-rdr .fab,.style-rdr .locate,.style-rdr .pchip,.style-rdr .maplibregl-popup-content{background-color:var(--panel);background-image:var(--paper);border:1px solid #8c7352;box-shadow:0 2px 0 #b39a72,0 8px 22px rgba(60,40,20,.35)}
+.style-rdr .sheet{border-radius:0;border-width:2px 0 0}
+.style-rdr .panel{border-radius:0}
+.style-rdr .panel header{background:transparent}
+.style-rdr .panel h2{font:400 32px/1 Rye,var(--head);letter-spacing:.5px}
+.style-rdr .panel h3{font:400 22px/1 var(--head);color:var(--acc);border-bottom:1px solid var(--line);padding-bottom:4px}
+.style-rdr .btn{font:400 21px/1 var(--head);letter-spacing:.5px}
+.style-rdr .btn.go{background:var(--acc);color:#f4ead2;box-shadow:inset 0 0 0 2px #f4ead244,0 2px 0 #5a0f0b}
+.style-rdr .btn.ghost,.style-rdr .chip,.style-rdr .alts button,.style-rdr .pop .pb,.style-rdr .stylebtn,.style-rdr .select select,.style-rdr .select input{background:#f1e6cc;border:1px solid #9e8560;color:var(--ink)}
+.style-rdr .stylebtn.on{border:2px solid var(--acc);background:#f6ecd4}
+.style-rdr .stylebtn b{font:400 22px/1 Rye,var(--head)}
+.style-rdr .summary b{font:400 36px/1 Rye,var(--head);color:var(--ink)}
+.style-rdr .grab{background:#9e8560}
+.style-rdr .fab,.style-rdr .locate{border-radius:50%}
+.style-rdr .iconbtn svg{stroke:var(--ink)}
+.style-rdr.following .locate svg{fill:var(--acc);stroke:var(--acc)}
+.style-rdr .field input{font-size:18px}
+.style-rdr .dot.via,.style-rdr .pin.via span{background:var(--acc)}
+.style-rdr .dot.to{background:none;border-radius:0;transform:none;position:relative}
+.style-rdr .dot.to::before,.style-rdr .dot.to::after{content:'';position:absolute;left:-2px;right:-2px;top:5px;height:3px;background:var(--acc);border-radius:2px;transform:rotate(45deg)}
+.style-rdr .dot.to::after{transform:rotate(-45deg)}
+.style-rdr .fspd b{font:400 32px/1 Rye,var(--head)}
+.style-rdr .fwhere b{font:italic 400 19px/1.15 var(--body)}
+.style-rdr .maplibregl-popup-tip{border-top-color:#8c7352!important;border-bottom-color:#8c7352!important}
+.style-rdr .maplibregl-ctrl-attrib{background:rgba(234,220,188,.8)!important;color:#6e5a43!important}
+.style-rdr .maplibregl-ctrl-attrib a{color:#4a3a2a!important}
+.style-rdr .maplibregl-ctrl-attrib-button{filter:none}
+.style-rdr .modal{background:rgba(40,25,12,.45)}
+.style-rdr .toggle input,.style-rdr .slider input{accent-color:var(--acc)}
+/* destinazione: la X rossa della mappa del tesoro */
+.style-rdr .pin.to span{background:none!important;border:0;border-radius:0;transform:none;width:30px;height:30px;position:relative}
+.style-rdr .pin.to span::before,.style-rdr .pin.to span::after{content:'';position:absolute;left:0;right:0;top:12px;height:6px;background:var(--acc);border-radius:3px;transform:rotate(45deg);box-shadow:0 0 0 1.5px #f1e4c6}
+.style-rdr .pin.to span::after{transform:rotate(-45deg)}
+.style-rdr .pin.from span{border-radius:50%;transform:none;border-color:var(--ink);background:#f4ead2!important}
+.style-rdr .vehicle{filter:drop-shadow(0 2px 2px rgba(60,40,20,.55))}
+.style-rdr .vehicle.warrowmk{width:34px}
+
+/* carta invecchiata sopra la mappa */
+.wpaper{position:fixed;inset:0;pointer-events:none;z-index:5;background:var(--paper),radial-gradient(ellipse at center,transparent 55%,rgba(90,60,25,.38) 100%);mix-blend-mode:multiply;opacity:.75}
+body.rdr-nopaper .wpaper{display:none}
+
+/* diario di viaggio */
+.journal{padding:4px 2px 6px}
+.journal .jh{font:400 20px/1 var(--head);color:var(--acc);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:2px}
+.journal ol{list-style:none;margin:0;padding:0}
+.journal li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed #b39a72;cursor:pointer}
+.journal .ja svg{width:30px;height:30px;display:block}
+.journal .jt{font-size:17px;line-height:1.2}
+.journal .jt i{color:#4a2a14}
+.journal .jd{font:400 15px var(--head);color:var(--mute)}
+
+/* HUD di guida */
+.style-rdr #hud{position:fixed;inset:0;pointer-events:none;z-index:1000;font-family:var(--body);color:var(--ink)}
+.wcard{position:absolute;top:calc(var(--safe-t) + 10px);left:10px;right:126px;max-width:430px;display:flex;gap:12px;align-items:center;padding:10px 14px 10px 10px;background-color:#eadcbc;background-image:var(--paper);border:1px solid #6e5a43;box-shadow:0 0 0 3px #eadcbc,0 0 0 4px #6e5a43,0 8px 18px rgba(40,25,12,.45)}
+.warrow{width:58px;height:58px;flex:none}.warrow svg{width:100%;height:100%}
+.wdist{font:400 32px/1.05 Rye,var(--head)}
+.wtext{font-size:19px;line-height:1.18}
+.wtext i{color:#4a2a14}
+.pop{animation:wpop .4s ease-out}
+@keyframes wpop{from{transform:rotate(-1.5deg) translateY(-8px);opacity:0}}
+.wtr{position:absolute;top:calc(var(--safe-t) + 10px);right:10px;text-align:right;width:108px}
+.wrem{font:400 27px/1.05 Rye,var(--head);color:#f4ead2;text-shadow:0 0 3px #000,1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000}
+.weta{font:italic 15px/1.2 var(--body);color:#f4ead2;text-shadow:0 0 3px #000,1px 1px 1px #000}
+.wwanted{margin-top:8px;margin-left:auto;width:max-content;max-width:108px;background:#1b1611e6;border:1px solid #9b1c16;padding:5px 8px;text-align:center;color:#f4ead2}
+.wwanted b{display:block;font:400 12.5px/1 Rye,var(--head);color:#d23a2f;letter-spacing:.3px}
+.wwanted span{font:italic 14px var(--body)}
+.wwanted em{font:400 18px Rye,var(--head);font-style:normal}
+.wwanted.on b{animation:wblink 1s steps(2) infinite}
+@keyframes wblink{50%{opacity:.3}}
+.wbl{position:absolute;left:12px;bottom:calc(var(--safe-b) + 14px)}
+.wcores{display:flex;align-items:center;gap:8px}
+.wcore{position:relative;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#2a231c,#0f0c09);box-shadow:0 3px 8px rgba(0,0,0,.5);color:#f4ead2}
+.wcore.big{width:84px;height:84px}
+.wcore svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.wcore .trk{fill:none;stroke:#f4ead233;stroke-width:5}
+.wcore .ring{fill:none;stroke:#f4ead2;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .6s,stroke .3s}
+.wcore .ring.over{stroke:#d23a2f}
+.wcore .cin{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.wcore .cin b{font:400 28px/1 Rye,var(--head)}
+.wcore .cin span{font:italic 12px var(--body);opacity:.85}
+.wcore .cin svg{position:static;transform:none;width:30px;height:30px}
+.wlimit{width:44px;height:44px;border-radius:50%;background:#f4ead2;border:5px solid var(--acc);color:#1b1611;font:400 17px Rye,var(--head);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.whonor{margin-top:8px;display:flex;align-items:center;gap:8px;color:#f4ead2;font:italic 13px var(--body);text-shadow:0 0 3px #000}
+.whonor .bar{position:relative;width:120px;height:7px;border-radius:4px;background:linear-gradient(90deg,#8e1a14,#5a4632 50%,#e9e2cf);box-shadow:0 0 0 1px #000a}
+.whonor i{position:absolute;top:-4px;width:4px;height:15px;margin-left:-2px;background:#f4ead2;border:1px solid #000;transition:left .8s;left:50%}
+.wbr{position:absolute;right:12px;bottom:calc(var(--safe-b) + 18px);max-width:50vw;text-align:right}
+.wstreet{font:italic 19px/1.2 var(--body);color:#f4ead2;text-shadow:0 0 4px #000,1px 1px 1px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wctrls{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+.wctrls button{width:46px;height:46px;border-radius:50%;padding:9px;background:#1b1611d9;color:#f4ead2;border:1.5px solid #f4ead2aa;cursor:pointer}
+.wctrls button svg{width:100%;height:100%;display:block}
+.style-rdr.driving .locate{right:12px;bottom:auto;top:calc(50% + 100px)}
+
+/* nome della città, sottotitoli, banner */
+.wreveal{position:fixed;left:0;right:0;top:calc(var(--safe-t) + 22%);text-align:center;pointer-events:none;z-index:950;opacity:0;color:#f4ead2;text-shadow:0 0 8px #000,2px 2px 2px #000}
+.wreveal.on{animation:wreveal 5.2s ease-in-out forwards}
+@keyframes wreveal{0%{opacity:0;letter-spacing:.5em}15%,75%{opacity:1;letter-spacing:.28em}100%{opacity:0;letter-spacing:.24em}}
+.wreveal .t{font:400 min(10vw,52px)/1.1 var(--head);text-transform:uppercase;letter-spacing:inherit;padding:0 12px}
+.wreveal .rule{width:160px;height:2px;margin:6px auto;background:linear-gradient(90deg,transparent,#f4ead2,transparent)}
+.wreveal .s{font:italic 19px var(--body);letter-spacing:0}
+.wsub{position:fixed;left:50%;bottom:calc(var(--safe-b) + 140px);transform:translateX(-50%);font:22px/1.25 var(--body);text-align:center;color:#f4ead2;text-shadow:0 0 5px #000,1px 1px 2px #000;width:86vw;pointer-events:none;transition:opacity .4s;opacity:0;z-index:2400}
+.wsub.on{opacity:1}
+.wsub .r{color:#ff6a5c}
+.wbanner{position:fixed;left:0;right:0;top:26%;text-align:center;pointer-events:none;z-index:2400;animation:wban .6s ease-out}
+.wbanner .band{background:linear-gradient(90deg,#0000,#120d09dd 18%,#120d09dd 82%,#0000);padding:14px 0 16px;color:#f4ead2}
+#wBTitle{font:400 min(11vw,58px)/1.1 Rye,var(--head);letter-spacing:1px;padding:0 10px;text-shadow:2px 2px 0 #000}
+#wBSub{font:italic 20px var(--body);margin-top:6px;padding:0 16px}
+.wbanner .medal:empty{display:none}
+.wbanner .medal svg{width:64px;height:80px;margin-top:6px;animation:wmedal .9s ease-out}
+@keyframes wban{from{opacity:0;transform:scaleY(.3)}}
+@keyframes wmedal{from{transform:translateY(-30px) rotate(-25deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.wreveal.on{animation:none;opacity:1}.pop,.wbanner,.wbanner .medal svg,.wwanted.on b{animation:none}}

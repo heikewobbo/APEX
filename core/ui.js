@@ -340,7 +340,7 @@
   function renderSettings() {
     const ready = A.styleOrder.map(id => A.styles[id]);
     $('styleList').innerHTML = ready.map(st => `<button class="stylebtn ${st.id === A.style.id ? 'on' : ''}" data-st="${st.id}"><b>${esc(st.name)}</b><span>${esc(st.tagline || '')}</span></button>`).join('') +
-      ['Red Dead', 'Minecraft'].map(n => `<button class="stylebtn soon" disabled><b>${n}</b><span>prossimamente</span></button>`).join('');
+      [['rdr', 'Red Dead'], ['minecraft', 'Minecraft']].filter(([id]) => !A.styles[id]).map(([, n]) => `<button class="stylebtn soon" disabled><b>${n}</b><span>prossimamente</span></button>`).join('');
     const s = A.settings;
     $('tNoMotorway').checked = s.noMotorway; $('tCams').checked = s.cams; $('selInstr').value = s.instrVoice; $('selAudio').value = s.audioMode;
     $('tSat').checked = s.satellite; $('tCompass').checked = s.compass; $('sSim').value = s.sim; $('oSim').textContent = s.sim + ' km/h';
