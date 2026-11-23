@@ -1,5 +1,5 @@
 // APEX — l'app funziona senza rete; mappe, caratteri e dati già visti restano in memoria
-const CACHE = 'apex-v1';
+const CACHE = 'apex-v2';
 const FILES = ['./', 'index.html', 'css/base.css', 'core/pacenotes.js', 'core/util.js', 'core/voice.js', 'core/map.js', 'core/engine.js', 'core/ui.js', 'core/boot.js',
   'styles/rally/rally.js', 'styles/rally/rally.css', 'styles/rally/cars.js', 'styles/gta/gta.js', 'styles/gta/gta.css',
   'vendor/maplibre/maplibre-gl.js', 'vendor/maplibre/maplibre-gl.css', 'vendor/jszip.min.js', 'manifest.webmanifest', 'icon-192.png', 'nosleep.mp4'];

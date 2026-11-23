@@ -193,19 +193,25 @@
   $('saveForm').addEventListener('submit', e => { e.preventDefault(); $('saveModal').hidden = true; A.stages.save($('inStageName').value.trim() || 'Prova'); });
 
   // ---------- tocco sulla mappa ----------
-  let skip = false; const skipClick = () => { skip = true; setTimeout(() => skip = false, 300); };
+  // dopo una pressione lunga il rilascio del dito non deve contare come tocco
+  let skip = false, skipT = 0; const skipClick = () => { skip = true; clearTimeout(skipT); skipT = setTimeout(() => skip = false, 8000); };
+  A.map.getCanvasContainer().addEventListener('pointerup', () => { if (skip) { clearTimeout(skipT); skipT = setTimeout(() => skip = false, 350); } }, true);
   A.skipClick = skipClick;
   A.map.on('click', e => {
     if (A.drive.on || skip) return;
     hideSugg();
+    // un tocco chiude il menu aperto
+    if (A.popupOpen()) { A.closePopup(); return; }
     const pt = e.point, box = [[pt.x - 10, pt.y - 10], [pt.x + 10, pt.y + 10]];
     const layers = ['apex-alts', 'apex-blocks'].filter(l => A.map.getLayer(l));
     const f = layers.length ? A.map.queryRenderedFeatures(box, { layers }) : [];
     const alt = f.find(x => x.layer.id === 'apex-alts'); if (alt) { A.selectRoute(alt.properties.idx, false); return; }
     const blk = f.find(x => x.layer.id === 'apex-blocks'); if (blk) return blockPopup(e.lngLat, blk.properties.id);
     if (A.style && A.style.onMapClick && A.style.onMapClick(e)) return;
-    mapPopup(e.lngLat);
+    if (addingVia) { addingVia = false; A.reverseName(e.lngLat.lat, e.lngLat.lng).then(name => { A.plan.vias.push({ lat: e.lngLat.lat, lon: e.lngLat.lng, name }); renderPlan(); planRoute(); }); }
   });
+  // tasto destro sul computer = come tenere premuto
+  A.map.on('contextmenu', e => { if (!A.drive.on) mapPopup(e.lngLat); });
   function blockPopup(lngLat, id) {
     const b = A.blocks.find(x => x.id === id); if (!b) return;
     const el = A.openPopup(lngLat, `<div class="pop"><h4>Strada chiusa dal ${new Date(b.t).toLocaleDateString('it-IT')}</h4><button class="pb" data-del="1">Riapri la strada</button></div>`);
@@ -240,11 +246,19 @@
       A.setDestination(place);
     });
   }
-  // tieni premuto = vai lì
+  // tieni premuto = menu (vai qui, tappa, segnala…)
   let lpT = null, lpP = null;
-  A.map.on('touchstart', e => { if (A.drive.on) return; if (e.points && e.points.length === 1) { lpP = e.point; const ll = e.lngLat; clearTimeout(lpT); lpT = setTimeout(async () => { skipClick(); if (navigator.vibrate) navigator.vibrate(30); const name = await A.reverseName(ll.lat, ll.lng); const place = { lat: ll.lat, lon: ll.lng, name }; if (addingVia) { addingVia = false; A.plan.vias.push(place); renderPlan(); planRoute(); } else A.setDestination(place); }, 550); } else clearTimeout(lpT); });
-  A.map.on('touchmove', e => { if (lpP && e.point && Math.hypot(e.point.x - lpP.x, e.point.y - lpP.y) > 10) clearTimeout(lpT); });
-  A.map.on('touchend', () => clearTimeout(lpT)); A.map.on('touchcancel', () => clearTimeout(lpT));
+  const lpBox = A.map.getCanvasContainer();
+  const lpCancel = () => { clearTimeout(lpT); lpT = null; };
+  lpBox.addEventListener('pointerdown', e => {
+    if (A.drive.on || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (lpT) return lpCancel(); // secondo dito: è uno zoom
+    lpP = { x: e.clientX, y: e.clientY };
+    const r = lpBox.getBoundingClientRect(); const ll = A.map.unproject([e.clientX - r.left, e.clientY - r.top]);
+    lpT = setTimeout(() => { lpT = null; skipClick(); if (navigator.vibrate) navigator.vibrate(30); hideSugg(); mapPopup(ll); }, 550);
+  }, true);
+  lpBox.addEventListener('pointermove', e => { if (lpT && Math.hypot(e.clientX - lpP.x, e.clientY - lpP.y) > 10) lpCancel(); }, true);
+  ['pointerup', 'pointercancel'].forEach(t => lpBox.addEventListener(t, lpCancel, true));
 
   // ostacoli sulla mappa
   let obsMarkers = [];

@@ -81,10 +81,11 @@
   let popup = null;
   A.openPopup = (lnglat, html) => {
     if (popup) popup.remove();
-    popup = new maplibregl.Popup({ closeButton: false, maxWidth: '290px', offset: 12 }).setLngLat(lnglat).setHTML(html).addTo(map);
+    popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, maxWidth: '290px', offset: 12 }).setLngLat(lnglat).setHTML(html).addTo(map);
     return popup.getElement();
   };
-  A.closePopup = () => { if (popup) { popup.remove(); popup = null; } };
+  A.closePopup = () => { if (popup) { popup.remove(); popup = null; } document.getElementById('sheet').classList.remove('min'); };
+  A.popupOpen = () => !!popup;
 
   // ---------- veicolo ----------
   // lo stile fornisce: vehicle(mode) → { html, align: 'map' | 'viewport', cls }
@@ -121,8 +122,21 @@
     A.emit('camMode', on);
     if (on) cam.zoom = Math.max(map.getZoom(), 15.5);
   };
+  // dito sulla mappa: finché è appoggiato la camera non si muove (altrimenti annulla il trascinamento);
+  // se lo sposti smette di seguire, se allarghi con due dita cambia solo lo zoom e continua a seguire
+  const ptrs = new Map(); cam.hold = 0;
+  const box = map.getCanvasContainer();
+  box.addEventListener('pointerdown', e => { ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); }, true);
+  box.addEventListener('pointermove', e => {
+    const p0 = ptrs.get(e.pointerId); if (!p0 || !cam.following) return;
+    if (ptrs.size >= 2) { cam.userZoom = true; return; }
+    if (Math.hypot(e.clientX - p0.x, e.clientY - p0.y) > 8) cam.follow(false);
+  }, true);
+  const up = e => { ptrs.delete(e.pointerId); if (!ptrs.size) { cam.zoom = map.getZoom(); cam.hold = performance.now() + 250; } };
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(t => box.addEventListener(t, up, true));
+  box.addEventListener('wheel', () => { if (cam.following) { cam.userZoom = true; cam.hold = performance.now() + 400; } }, { passive: true, capture: true });
   map.on('dragstart', e => { if (e.originalEvent && cam.following) cam.follow(false); });
-  map.on('zoomstart', e => { if (e.originalEvent && cam.following) cam.userZoom = true; });
+  map.on('zoomend', e => { if (e.originalEvent && cam.following) { cam.userZoom = true; cam.zoom = map.getZoom(); } });
   function frame(now) {
     cam.raf = requestAnimationFrame(frame);
     const dt = Math.min(0.2, (now - (cam.t || now)) / 1000); cam.t = now;
@@ -133,7 +147,7 @@
     const moving = p.speed > 1.5;
     if (moving || p.drive) cam.bearing = (cam.bearing + A.angDiff(p.bearing, cam.bearing) * Math.min(1, dt * 4) + 360) % 360;
     A.vehicle.place(p.ll, p.bearing, mode);
-    if (!cam.following) return;
+    if (!cam.following || ptrs.size || now < cam.hold) return;
     const c = (st.camera ? st.camera(p) : null) || {};
     const kmh = p.speed * 3.6;
     const zt = cam.userZoom ? map.getZoom() : (c.zoom != null ? c.zoom : 17.6 - Math.max(0, Math.min(1, (kmh - 30) / 90)) * 1.6);
