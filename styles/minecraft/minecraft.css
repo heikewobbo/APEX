@@ -1,0 +1,94 @@
+/* APEX — stile MINECRAFT: mappa a pixel, finestre grigie "da inventario", carattere a pixel */
+body.style-minecraft{--bg:#1e1e1e;--panel:#c6c6c6;--panel2:#8b8b8b;--line:#555;--ink:#3f3f3f;--mute:#5a5a5a;--acc:#3f8a1f;--acc-ink:#fff;--go:#3f8a1f;--stop:#b02e26;--r:0px;--r2:0px;
+  --head:'Pixelify Sans',monospace;--body:'Pixelify Sans',monospace;color-scheme:light;
+  --bev:inset 2px 2px 0 #fff,inset -2px -2px 0 #555}
+.style-minecraft #map{background:#5f9f3a}
+.style-minecraft .maplibregl-canvas{image-rendering:pixelated;image-rendering:crisp-edges}
+.style-minecraft .y{color:#ffff55}.style-minecraft .r{color:#ff5555}
+.style-minecraft .fields,.style-minecraft .sugg,.style-minecraft .sheet,.style-minecraft .panel,.style-minecraft .maplibregl-popup-content{background:#c6c6c6;border:2px solid #000;box-shadow:var(--bev),0 6px 0 rgba(0,0,0,.35);border-radius:0;color:#3f3f3f}
+.style-minecraft .fields{background:#000000b3;box-shadow:none;border:2px solid #a0a0a0}
+.style-minecraft .fields input,.style-minecraft .fields .x,.style-minecraft .fields .iconbtn svg{color:#fff;stroke:#fff}
+.style-minecraft .field+.field,.style-minecraft #viaList .field{border-color:#555}
+.style-minecraft .field input::placeholder{color:#a0a0a0}
+.style-minecraft .dot.from{border-color:#fff}
+.style-minecraft .dot.to{background:#d4a017;border-radius:0;transform:none}
+.style-minecraft .dot.via,.style-minecraft .pin.via span{background:#3f8a1f;border-radius:0}
+.style-minecraft .chips,.style-minecraft #freehud{display:none!important}
+.style-minecraft .sugg li:hover{background:#b0b0b0}
+.style-minecraft .sheet{border-width:2px 2px 0}
+.style-minecraft .panel header{background:#c6c6c6}
+.style-minecraft .panel h2{font:500 30px/1 var(--head);color:#3f3f3f}
+.style-minecraft .panel h3{font:500 20px/1 var(--head);color:#3f3f3f;border-bottom:2px solid #8b8b8b;padding-bottom:4px}
+.style-minecraft .btn,.style-minecraft .chip,.style-minecraft .alts button,.style-minecraft .pop .pb,.style-minecraft .stylebtn,.style-minecraft .select select,.style-minecraft .fab,.style-minecraft .locate{background:#8b8b8b;color:#fff;border:2px solid #000;border-radius:0;box-shadow:inset 2px 2px 0 #c6c6c6,inset -2px -3px 0 #4a4a4a;text-shadow:2px 2px 0 #3f3f3f;font-family:var(--head);font-weight:400}
+.style-minecraft .btn.go{background:#3f8a1f;box-shadow:inset 2px 2px 0 #7fcf4f,inset -2px -3px 0 #24541a}
+.style-minecraft .btn.stop,.style-minecraft .btn.confirm{background:#b02e26}
+.style-minecraft .alts button.on,.style-minecraft .chip.on,.style-minecraft .stylebtn.on{border-color:#fff;outline:2px solid #000}
+.style-minecraft .stylebtn b{font:500 22px/1 var(--head)}.style-minecraft .stylebtn span{color:#e6e6e6}
+.style-minecraft .summary b{font:500 34px/1 var(--head);color:#3f3f3f}
+.style-minecraft .muted,.style-minecraft .hint,.style-minecraft .sumright,.style-minecraft .suminfo,.style-minecraft .summary span{color:#555}
+.style-minecraft .iconbtn svg{stroke:#fff}
+.style-minecraft .toggle input{accent-color:#3f8a1f}
+.style-minecraft .grab{background:#8b8b8b;border-radius:0}
+.style-minecraft .maplibregl-popup-tip{border-top-color:#000!important;border-bottom-color:#000!important}
+.style-minecraft .pin.to span{border-radius:0;transform:none;background:#d4a017!important;border:3px solid #000;box-shadow:inset -3px -3px 0 #8a6410}
+.style-minecraft .vehicle.mcveh{width:30px;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45))}
+.style-minecraft .vehicle svg{image-rendering:pixelated}
+.style-minecraft .locate{bottom:calc(var(--safe-b) + 104px)}
+.style-minecraft.has-route .locate{bottom:calc(var(--safe-b) + 230px)}
+.style-minecraft.driving .locate{right:10px;bottom:auto;top:calc(var(--safe-t) + 130px)}
+.style-minecraft .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 84px)}
+
+/* notte */
+.mnight{position:fixed;inset:0;pointer-events:none;z-index:5;background:#0b1440;mix-blend-mode:multiply;opacity:0;transition:opacity 3s}
+
+/* testo "del gioco" */
+.style-minecraft #hud,.mfree{font-family:var(--head);color:#fff;text-shadow:2px 2px 0 #3f3f3f}
+.style-minecraft #hud{position:fixed;inset:0;pointer-events:none;z-index:1000}
+.mchat{position:absolute;left:6px;top:calc(var(--safe-t) + 8px);right:120px;display:flex;flex-direction:column;gap:2px}
+.mchat .ln{background:rgba(0,0,0,.45);padding:3px 6px;font-size:16px;line-height:1.2;transition:opacity .8s}
+.mchat .ln.out{opacity:0}
+.mchat .who{color:#ffaa00}
+.mtoast{position:absolute;right:6px;top:calc(var(--safe-t) + 8px);width:200px;background:#212121;border:2px solid #000;box-shadow:inset 0 0 0 2px #555;padding:8px 10px;transform:translateX(230px);transition:transform .45s}
+.mtoast.on{transform:none}
+.mtoast b{display:block;font-weight:400;font-size:15px}.mtoast span{font-size:15px}
+.msig{position:absolute;right:10px;top:calc(var(--safe-t) + 92px);width:30px;height:24px;background:center/contain no-repeat;image-rendering:pixelated}
+.mtitle{position:absolute;left:0;right:0;top:27%;text-align:center;padding:0 10px}
+.mtitle .tt{font-size:min(10vw,44px);line-height:1.05;text-shadow:3px 3px 0 #3f3f3f}
+.mtitle .ts{font-size:21px;margin-top:6px}
+.mtitle.in{animation:mtin .35s ease-out}
+@keyframes mtin{from{opacity:0}}
+.mbottom,.mfree{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(var(--safe-b) + 6px);width:min(calc(100vw - 12px),400px)}
+.mfree{position:fixed;z-index:800}
+body.has-route .mfree,body.driving .mfree{display:none}
+.maction{text-align:center;font-size:17px;line-height:1.2;margin-bottom:6px;min-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mbars{display:flex;justify-content:space-between;margin-bottom:3px}
+.mhearts,.mfood{display:flex;gap:1px}
+.mfood{flex-direction:row-reverse}
+.mhearts i,.mfood i{width:17px;height:17px;background:center/contain no-repeat;image-rendering:pixelated}
+.mhearts i.h{background-image:var(--mc-heart)}.mhearts i.hh{background-image:var(--mc-heartH)}.mhearts i.he{background-image:var(--mc-heartE)}
+.mfood i.f{background-image:var(--mc-food)}.mfood i.fh{background-image:var(--mc-foodH)}.mfood i.fe{background-image:var(--mc-foodE)}
+.mhearts.low i{animation:mjit .25s steps(2) infinite}
+.mhearts.low i:nth-child(2n){animation-delay:.12s}
+.mhearts.hit{animation:mhit .4s steps(2) 2}
+@keyframes mjit{50%{transform:translateY(-2px)}}
+@keyframes mhit{50%{filter:brightness(2.2)}}
+.mxp{position:relative;margin:0 0 4px}
+.mxp .bar{height:9px;background:#1b1b1b;border:2px solid #000;overflow:hidden}
+.mxp .bar i{display:block;height:100%;width:0;background:#80ff20;transition:width .8s}
+.mc-sheet .mxp .bar{border:0;height:auto;aspect-ratio:182/5;background:var(--mc-xp0) 0 0/100% 100% no-repeat;image-rendering:pixelated}
+.mc-sheet .mxp .bar i{background:var(--mc-xp1) 0 0/auto 100% no-repeat;image-rendering:pixelated}
+.mxp b{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-weight:400;font-size:18px;color:#80ff20;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000}
+.hotbar{display:grid;grid-template-columns:repeat(9,1fr);background:rgba(0,0,0,.35);border:2px solid #000;box-shadow:inset 0 0 0 2px #8b8b8b;padding:2px;pointer-events:auto}
+.hotbar .slot{position:relative;aspect-ratio:1;background:rgba(139,139,139,.25);border:2px solid #8b8b8b;margin:0;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:var(--head);text-shadow:2px 2px 0 #3f3f3f;cursor:pointer;line-height:1}
+.hotbar .slot:first-child{border:3px solid #fff;outline:2px solid #000;z-index:1}
+.hotbar .slot b{font-weight:500;font-size:19px}
+.hotbar .slot small{font-size:11px}
+.hotbar .slot.over b{color:#ff5555}
+.hotbar .slot em{position:absolute;right:2px;bottom:1px;font-style:normal;font-size:11px;white-space:nowrap}
+.hotbar .slot .pl{font-size:20px}
+.hotbar .lim{width:30px;height:30px;border-radius:50%;background:#fff;border:4px solid #d42020;color:#000;text-shadow:none;font-size:13px;display:flex;align-items:center;justify-content:center}
+.hotbar .slot.none .lim{display:none}
+.mci{display:block;width:24px;height:24px;background:center/contain no-repeat;image-rendering:pixelated}
+.hotbar .slot em ~ .mci,.hotbar .slot .mci{margin-top:-6px}
+@media (prefers-reduced-motion:reduce){.mhearts.low i,.mhearts.hit,.mtitle.in{animation:none}.mtoast{transition:none}}
+.style-minecraft.driving .maplibregl-ctrl-bottom-right{bottom:calc(var(--safe-b) + 150px)}
